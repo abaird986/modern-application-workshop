@@ -218,7 +218,7 @@ Resources:
           - CidrIp: 0.0.0.0/0
             IpProtocol: -1
             Port: 8080
-            
+
   PublicLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:

@@ -7,17 +7,11 @@ CORS(app)
 
 @app.route("/")
 def errorResponse():
-    return jsonify({"message" : "Nothing here, used for health check. Try /pets instead."})
+    return jsonify({"message" : "Nothing here, used for health check. Try /mysfits instead."})
 
-@app.route("/pets")
-def getProducts():
-    
-    
-    #response = Response(open("pets-response.json").read())
-    #response.headers["Content-Type"]= "application/json"
-    
-    #return response
-    
+@app.route("/mysfits")
+def getMysfits():
+
     filterCategory = request.args.get('filter')
     if filterCategory:
         filterValue = request.args.get('value')
@@ -28,11 +22,11 @@ def getProducts():
         serviceResponse = mysfitsTableClient.queryMysfits(queryParam)
     else:
         serviceResponse = mysfitsTableClient.getAllMysfits()
-    
+
     flaskResponse = Response(serviceResponse)
     flaskResponse.headers["Content-Type"] = "application/json"
-    
+
     return flaskResponse
-    
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
