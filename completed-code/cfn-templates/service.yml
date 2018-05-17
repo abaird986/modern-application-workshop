@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Deploy a service on AWS Fargate, hosted in a private subnet, but accessible via a public load balancer.
 Parameters:
-  NetworkStackName:
+  CoreStackName:
     Type: String
-    Default: MythicalMysfitsNetworkStack
+    Default: MythicalMysfitsCoreStack
     Description: The name of the parent Fargate networking stack that you created. Necessary
                  to locate and reference resources created by that stack.
   ContainerCpu:
@@ -56,10 +56,10 @@ Resources:
         - FARGATE
       ExecutionRoleArn:
         Fn::ImportValue:
-          !Join [':', [!Ref 'NetworkStackName', 'EcsServiceRole']]
+          !Join [':', [!Ref 'CoreStackName', 'EcsServiceRole']]
       TaskRoleArn:
         Fn::ImportValue:
-          !Join [':', [!Ref 'NetworkStackName', 'ECSTaskRole']]
+          !Join [':', [!Ref 'CoreStackName', 'ECSTaskRole']]
       ContainerDefinitions:
         - Name: MythicalMysfits-Service
           Image:
@@ -95,12 +95,12 @@ Resources:
           AssignPublicIp: DISABLED
           SecurityGroups:
             - Fn::ImportValue:
-                !Join [':', [!Ref 'NetworkStackName', 'FargateContainerSecurityGroup']]
+                !Join [':', [!Ref 'CoreStackName', 'FargateContainerSecurityGroup']]
           Subnets:
             - Fn::ImportValue:
-                !Join [':', [!Ref 'NetworkStackName', 'PrivateSubnetOne']]
+                !Join [':', [!Ref 'CoreStackName', 'PrivateSubnetOne']]
             - Fn::ImportValue:
-                !Join [':', [!Ref 'NetworkStackName', 'PrivateSubnetTwo']]
+                !Join [':', [!Ref 'CoreStackName', 'PrivateSubnetTwo']]
       TaskDefinition: !Ref 'TaskDefinition'
       LoadBalancers:
         - ContainerName: MythicalMysfits-Service
@@ -127,7 +127,7 @@ Resources:
       UnhealthyThresholdCount: 10
       VpcId:
         Fn::ImportValue:
-          !Join [':', [!Ref 'NetworkStackName', 'VPCId']]
+          !Join [':', [!Ref 'CoreStackName', 'VPCId']]
 
   PublicLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -137,7 +137,7 @@ Resources:
           Type: 'forward'
       LoadBalancerArn:
         Fn::ImportValue:
-          !Join [':', [!Ref 'NetworkStackName', 'PublicLoadBalancer']]
+          !Join [':', [!Ref 'CoreStackName', 'PublicLoadBalancer']]
       Port: 80
       Protocol: HTTP
 
