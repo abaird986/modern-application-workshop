@@ -17,10 +17,5 @@ def getProducts():
 
     return response
 
-    flaskResponse = Response(serviceResponse)
-    flaskResponse.headers["Content-Type"] = "application/json"
-
-    return flaskResponse
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
