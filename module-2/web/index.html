@@ -61,7 +61,7 @@
   </body>
   <script>
 
-    var mysfitsApiEndpoint = 'http://mythi-publi-170kl1t94oe21-1208877081.us-east-1.elb.amazonaws.com';
+    var mysfitsApiEndpoint = 'REPLACE_ME';
 
     var app = angular.module('mysfitsApp', []);
 
@@ -104,7 +104,7 @@
 
        $scope.queryMysfits = function(filterCategory, filterValue) {
 
-           var petsApi = mysfitsApiEndpoint + '/pets?' + 'filter=' + filterCategory + "&value=" + filterValue;
+           var petsApi = mysfitsApiEndpoint + '/mysfits?' + 'filter=' + filterCategory + "&value=" + filterValue;
 
            $.ajax({
              url : petsApi,
@@ -137,7 +137,7 @@
 
     function getAllMysfits(callback) {
 
-      var petsApi = mysfitsApiEndpoint + '/pets';
+      var petsApi = mysfitsApiEndpoint + '/mysfits';
 
       $.ajax({
         url : petsApi,
