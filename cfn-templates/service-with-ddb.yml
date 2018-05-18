@@ -112,12 +112,12 @@ Resources:
       HealthCheckIntervalSeconds: 10
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
-      HealthyThresholdCount: 2
+      HealthyThresholdCount: 3
       TargetType: ip
       Name: MythicalMysfits-Service
       Port: !Ref ContainerPort
       Protocol: HTTP
-      UnhealthyThresholdCount: 10
+      UnhealthyThresholdCount: 3
       VpcId:
         Fn::ImportValue:
           !Join [':', [!Ref 'NetworkStackName', 'VPCId']]
