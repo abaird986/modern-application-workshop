@@ -138,7 +138,7 @@ Resources:
         Fn::ImportValue:
           !Join [':', [!Ref 'CoreStackName', 'PublicLoadBalancer']]
       Port: 80
-      Protocol: HTTP
+      Protocol: TCP
 
   # Create a rule on the load balancer for routing traffic to the target group
   LoadBalancerRule:
