@@ -3,7 +3,7 @@ Description: Deploy a service on AWS Fargate, hosted in a private subnet, but ac
 Parameters:
   NetworkStackName:
     Type: String
-    Default: MythicalMysfitsNetworkStack
+    Default: MythicalMysfitsCoreStack
     Description: The name of the parent Fargate networking stack that you created. Necessary
                  to locate and reference resources created by that stack.
   ContainerCpu:
@@ -109,7 +109,7 @@ Resources:
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 6
+      HealthCheckIntervalSeconds: 10
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
