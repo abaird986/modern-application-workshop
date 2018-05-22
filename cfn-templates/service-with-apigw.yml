@@ -1,4 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
 Description: Deploy a service on AWS Fargate, hosted in a private subnet, but accessible via a public load balancer.
 Parameters:
   CoreStackName:
@@ -116,7 +118,7 @@ Resources:
       TargetType: ip
       Name: MythicalMysfits-Service
       Port: !Ref ContainerPort
-      Protocol: TCP
+      Protocol: HTTP
       UnhealthyThresholdCount: 3
       VpcId:
         Fn::ImportValue:
@@ -184,6 +186,37 @@ Resources:
           ProvisionedThroughput:
             ReadCapacityUnits: 5
             WriteCapacityUnits: 5
+
+  MysfitsVpcLink:
+    Type: "AWS::ApiGateway::VpcLink"
+    Name: "MysfitsVpcLink"
+    TargetArns:
+      -
+        Fn::ImportValue:
+          !Join [':', [!Ref 'CoreStackName', 'PublicLoadBalancer']]
+
+
+  MysfitsApigwApi:
+    Type: "AWS::Serverless::Api"
+    Properties:
+        StageName: prod
+        DefinitionBody:
+            swagger: 2.0
+            info:
+              title:
+                Ref: AWS::StackName
+            paths:
+              "/mysfits":
+                get:
+                  x-amazon-apigateway-integration:
+                    connectionType: VPC_LINK
+                    httpMethod: GET
+                    type: http
+                    uri:
+                      Fn::ImportValue:
+                        !Join ['', [!Ref 'CoreStackName', ':', 'ExternalUrl', '/mysfits']]
+                    responses: {}
+
 
 
 Outputs:
