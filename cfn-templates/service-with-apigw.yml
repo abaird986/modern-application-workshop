@@ -44,7 +44,7 @@ Resources:
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: mythicalmyfitsservice
+      Family: mythiaclmysfitsservice
       Cpu: !Ref 'ContainerCpu'
       Memory: !Ref 'ContainerMemory'
       NetworkMode: awsvpc
@@ -66,7 +66,7 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: awslogs-mythicalmysfits
+              awslogs-group: mythicalmysfits-logs
               awslogs-region:
                 Ref: AWS::Region
               awslogs-stream-prefix: awslogs-mythicalmysfits-service
@@ -188,8 +188,8 @@ Resources:
             WriteCapacityUnits: 5
 
   MysfitsVpcLink:
-    Type: "AWS::ApiGateway::VpcLink"
-    Name: "MysfitsVpcLink"
+    Type: AWS::ApiGateway::VpcLink
+    Name: MysfitsVpcLink
     TargetArns:
       -
         Fn::ImportValue:
@@ -197,7 +197,8 @@ Resources:
 
 
   MysfitsApigwApi:
-    Type: "AWS::Serverless::Api"
+    Type: AWS::Serverless::Api
+    DependsOn: MysfitsVpcLink
     Properties:
         StageName: prod
         DefinitionBody:
@@ -216,8 +217,6 @@ Resources:
                       Fn::ImportValue:
                         !Join ['', [!Ref 'CoreStackName', ':', 'ExternalUrl', '/mysfits']]
                     responses: {}
-
-
 
 Outputs:
   ClusterName:

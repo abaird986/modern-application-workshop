@@ -42,7 +42,7 @@ Resources:
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: mythicalmyfitsservice
+      Family: mythiaclmysfitsservice
       Cpu: !Ref 'ContainerCpu'
       Memory: !Ref 'ContainerMemory'
       NetworkMode: awsvpc
@@ -64,7 +64,7 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: awslogs-mythicalmysfits
+              awslogs-group: mythicalmysfits-logs
               awslogs-region:
                 Ref: AWS::Region
               awslogs-stream-prefix: awslogs-mythicalmysfits-service
