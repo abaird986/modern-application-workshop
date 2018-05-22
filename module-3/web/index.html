@@ -103,7 +103,7 @@
 
        $scope.queryMysfits = function(filterCategory, filterValue) {
 
-           var petsApi = mysfitsApiEndpoint + '/pets?' + 'filter=' + filterCategory + "&value=" + filterValue;
+           var petsApi = mysfitsApiEndpoint + '/mysfits?' + 'filter=' + filterCategory + "&value=" + filterValue;
 
            $.ajax({
              url : petsApi,

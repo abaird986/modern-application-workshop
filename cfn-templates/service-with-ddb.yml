@@ -37,6 +37,12 @@ Resources:
     Properties:
       ClusterName: MythicalMysfits-Cluster
 
+  MythicalMysfitsLogGroup:
+    Type: "AWS::Logs::LogGroup"
+    Properties:
+      LogGroupName: mythicalmysfits-logs
+      RetentionInDays: 14
+
   # The task definition. This is a simple metadata description of what
   # container to run, and what resource requirements it has.
   TaskDefinition:
