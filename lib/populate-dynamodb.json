@@ -1,271 +1,325 @@
 {
       "MysfitsTable" : [
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "111-111-111-111"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "Drago"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "Dragon"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "123213 fkldsfs fsdfsd sfs dfsd fs dfs  sdff sd fsd f sdf sdfs"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "99"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Evil"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "2342342"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "sfdsdf"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Evil"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "gsgdsfsdfs"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "sdfsdfs"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Good"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "sdfsdfsdfsdfs"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "gdgsfsd"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Evil"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "fdgdgfwefw"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "dfsdfsfees"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Indifferent"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "hdgfgfsfs"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "erwrwe"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Good"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "cbvbcvbd"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "Grag"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Evil"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "twwerwe"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "Teasda"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Evil"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
          },
          {
-            "PutRequest": { 
-               "Item": { 
-                  "MysfitId" : { 
+            "PutRequest": {
+               "Item": {
+                  "MysfitId" : {
                      "S": "bfdgsfefs"
                   },
-                  "Name" : { 
+                  "Name" : {
                      "S": "xxxx"
                   },
-                  "Species" : { 
+                  "Species" : {
                      "S": "REad"
                   },
-                  "Description" : { 
+                  "Description" : {
                      "S": "xxxx"
                   },
-                  "Age" : { 
+                  "Age" : {
                      "N": "100"
                   },
-                  "Alignment" : { 
+                  "Alignment" : {
                      "S": "Evil"
                   },
-                  "ThumbImageUri" : { 
+                  "ThumbImageUri" : {
                      "S": "https://images-na.ssl-images-amazon.com/images/G/01/00/00/04/62/36/87/462368790.gif"
                   },
-                  "ProfileImageUri" : { 
+                  "ProfileImageUri" : {
                      "S": "https://i.imgur.com/qZDB4i6.jpg"
+                  },
+                  "Likes" : {
+                    "N": "0"
+                  },
+                  "Adopted": {
+                    "BOOL": false
                   }
                }
             }
