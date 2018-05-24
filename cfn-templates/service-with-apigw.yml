@@ -346,3 +346,13 @@ Outputs:
     Value: !Ref 'Service'
     Export:
       Name: !Join [ ':', [ !Ref 'AWS::StackName', 'ServiceName' ] ]
+
+  ApiEndpoint:
+    Description: The endpoint for the REST API created with API Gateway
+    Value: !Join ['', ['https://', !Ref 'MysfitsApigwApi',  '.execute-api.', !Ref 'AWS::Region', '.amazonaws.com/prod']]
+
+  ApiId:
+    Description: The API ID for the REST API Created with API Gateway
+    Value: !Ref 'MysfitsApigwApi'
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'ApiId' ] ]
