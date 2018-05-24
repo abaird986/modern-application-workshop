@@ -269,6 +269,36 @@ Resources:
                                 - ':'
                                 - 'ExternalUrl'
                         - '/mysfits'
+            "/mysfits/{mysfitId}":
+              get:
+                parameters:
+                  -
+                    name: mysfitId
+                    in: path
+                    required: true
+                    type: string
+                responses: {}
+                security:
+                  -
+                    MysfitsUserPoolAuthorizer: []
+                x-amazon-apigateway-integration:
+                  requestParameters:
+                    integration.request.path.mysfitId: method.request.path.mysfitId
+                  connectionType: VPC_LINK
+                  connectionId: !Ref MysfitsVpcLink
+                  httpMethod: GET
+                  type: HTTP_PROXY
+                  uri:
+                    !Join
+                      - ''
+                      - - Fn::ImportValue:
+                            !Join
+                              - ''
+                              -
+                                - !Ref 'CoreStackName'
+                                - ':'
+                                - 'ExternalUrl'
+                        - '/mysfits/{mysfitId}'
             "/mysfits/{mysfitId}/adopt":
               post:
                 parameters:
