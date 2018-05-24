@@ -230,6 +230,25 @@ Resources:
                   providerARNs:
                     - !GetAtt MysfitsUserPool.Arn
             paths:
+              "/":
+                get:
+                  responses: {}
+                  x-amazon-apigateway-integration:
+                    connectionType: VPC_LINK
+                    connectionId: !Ref MysfitsVpcLink
+                    httpMethod: GET
+                    type: HTTP_PROXY
+                    uri:
+                      !Join
+                        - ''
+                        - - Fn::ImportValue:
+                              !Join
+                                - ''
+                                -
+                                  - !Ref 'CoreStackName'
+                                  - ':'
+                                  - 'ExternalUrl'
+                          - '/'
               "/mysfits":
                 get:
                   responses: {}
@@ -311,7 +330,7 @@ Resources:
                                   - !Ref 'CoreStackName'
                                   - ':'
                                   - 'ExternalUrl'
-                          - '/mysfits/{mysfitId}/adopt'
+                          - '/mysfits/{mysfitId}/like'
 
 
 Outputs:
