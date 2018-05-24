@@ -213,124 +213,125 @@ Resources:
       - MysfitsVpcLink
       - MysfitsUserPool
     Properties:
-        StageName: prod
-        DefinitionBody:
-            swagger: 2.0
-            info:
-              title:
-                Ref: AWS::StackName
-            securityDefinitions:
-              MysfitsUserPoolAuthorizer:
-                type: apiKey
-                name: Authorization
-                in: header
-                x-amazon-apigateway-authtype: cognito_user_pools
-                x-amazon-apigateway-authorizer:
-                  type: COGNITO_USER_POOLS
-                  providerARNs:
-                    - !GetAtt MysfitsUserPool.Arn
-            paths:
-              "/":
-                get:
-                  responses: {}
-                  x-amazon-apigateway-integration:
-                    connectionType: VPC_LINK
-                    connectionId: !Ref MysfitsVpcLink
-                    httpMethod: GET
-                    type: HTTP_PROXY
-                    uri:
-                      !Join
-                        - ''
-                        - - Fn::ImportValue:
-                              !Join
-                                - ''
-                                -
-                                  - !Ref 'CoreStackName'
-                                  - ':'
-                                  - 'ExternalUrl'
-                          - '/'
-              "/mysfits":
-                get:
-                  responses: {}
-                  x-amazon-apigateway-integration:
-                    connectionType: VPC_LINK
-                    connectionId: !Ref MysfitsVpcLink
-                    httpMethod: GET
-                    type: HTTP_PROXY
-                    uri:
-                      !Join
-                        - ''
-                        - - Fn::ImportValue:
-                              !Join
-                                - ''
-                                -
-                                  - !Ref 'CoreStackName'
-                                  - ':'
-                                  - 'ExternalUrl'
-                          - '/mysfits'
-              "/mysfits/{mysfitId}/adopt":
-                post:
-                  parameters:
-                    -
-                      name: mysfitId
-                      in: path
-                      required: true
-                      type: string
-                  responses: {}
-                  security:
-                    -
-                      MysfitsUserPoolAuthorizer: []
-                  x-amazon-apigateway-integration:
-                    requestParameters:
-                      integration.request.path.mysfitId: method.request.path.mysfitId
-                    connectionType: VPC_LINK
-                    connectionId: !Ref MysfitsVpcLink
-                    httpMethod: POST
-                    type: HTTP_PROXY
-                    uri:
-                      !Join
-                        - ''
-                        - - Fn::ImportValue:
-                              !Join
-                                - ''
-                                -
-                                  - !Ref 'CoreStackName'
-                                  - ':'
-                                  - 'ExternalUrl'
-                          - '/mysfits/{mysfitId}/adopt'
-              "/mysfits/{mysfitId}/like":
-                post:
-                  parameters:
-                    -
-                      name: mysfitId
-                      in: path
-                      required: true
-                      type: string
-                  security:
-                    -
-                      MysfitsUserPoolAuthorizer: []
-                  x-amazon-apigateway-integration:
-                    requestParameters:
-                      integration.request.path.mysfitId: method.request.path.mysfitId
+      EndpointConfiguration: REGIONAL
+      StageName: prod
+      DefinitionBody:
+          swagger: 2.0
+          info:
+            title:
+              Ref: AWS::StackName
+          securityDefinitions:
+            MysfitsUserPoolAuthorizer:
+              type: apiKey
+              name: Authorization
+              in: header
+              x-amazon-apigateway-authtype: cognito_user_pools
+              x-amazon-apigateway-authorizer:
+                type: COGNITO_USER_POOLS
+                providerARNs:
+                  - !GetAtt MysfitsUserPool.Arn
+          paths:
+            "/":
+              get:
+                responses: {}
+                x-amazon-apigateway-integration:
+                  connectionType: VPC_LINK
+                  connectionId: !Ref MysfitsVpcLink
+                  httpMethod: GET
+                  type: HTTP_PROXY
+                  uri:
+                    !Join
+                      - ''
+                      - - Fn::ImportValue:
+                            !Join
+                              - ''
+                              -
+                                - !Ref 'CoreStackName'
+                                - ':'
+                                - 'ExternalUrl'
+                        - '/'
+            "/mysfits":
+              get:
+                responses: {}
+                x-amazon-apigateway-integration:
+                  connectionType: VPC_LINK
+                  connectionId: !Ref MysfitsVpcLink
+                  httpMethod: GET
+                  type: HTTP_PROXY
+                  uri:
+                    !Join
+                      - ''
+                      - - Fn::ImportValue:
+                            !Join
+                              - ''
+                              -
+                                - !Ref 'CoreStackName'
+                                - ':'
+                                - 'ExternalUrl'
+                        - '/mysfits'
+            "/mysfits/{mysfitId}/adopt":
+              post:
+                parameters:
+                  -
+                    name: mysfitId
+                    in: path
+                    required: true
+                    type: string
+                responses: {}
+                security:
+                  -
+                    MysfitsUserPoolAuthorizer: []
+                x-amazon-apigateway-integration:
+                  requestParameters:
+                    integration.request.path.mysfitId: method.request.path.mysfitId
+                  connectionType: VPC_LINK
+                  connectionId: !Ref MysfitsVpcLink
+                  httpMethod: POST
+                  type: HTTP_PROXY
+                  uri:
+                    !Join
+                      - ''
+                      - - Fn::ImportValue:
+                            !Join
+                              - ''
+                              -
+                                - !Ref 'CoreStackName'
+                                - ':'
+                                - 'ExternalUrl'
+                        - '/mysfits/{mysfitId}/adopt'
+            "/mysfits/{mysfitId}/like":
+              post:
+                parameters:
+                  -
+                    name: mysfitId
+                    in: path
+                    required: true
+                    type: string
+                security:
+                  -
+                    MysfitsUserPoolAuthorizer: []
+                x-amazon-apigateway-integration:
+                  requestParameters:
+                    integration.request.path.mysfitId: method.request.path.mysfitId
 
-                    connectionType: VPC_LINK
-                    connectionId: !Ref MysfitsVpcLink
-                    httpMethod: POST
-                    security:
-                      -
-                        MysfitsUserPoolAuthorizer: []
-                    type: HTTP_PROXY
-                    uri:
-                      !Join
-                        - ''
-                        - - Fn::ImportValue:
-                              !Join
-                                - ''
-                                -
-                                  - !Ref 'CoreStackName'
-                                  - ':'
-                                  - 'ExternalUrl'
-                          - '/mysfits/{mysfitId}/like'
+                  connectionType: VPC_LINK
+                  connectionId: !Ref MysfitsVpcLink
+                  httpMethod: POST
+                  security:
+                    -
+                      MysfitsUserPoolAuthorizer: []
+                  type: HTTP_PROXY
+                  uri:
+                    !Join
+                      - ''
+                      - - Fn::ImportValue:
+                            !Join
+                              - ''
+                              -
+                                - !Ref 'CoreStackName'
+                                - ':'
+                                - 'ExternalUrl'
+                        - '/mysfits/{mysfitId}/like'
 
 
 Outputs:

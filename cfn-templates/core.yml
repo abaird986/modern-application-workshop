@@ -319,6 +319,8 @@ Resources:
                 #Allows the ECS tasks to interact with DynamoDB
                 - 'dynamodb:Scan'
                 - 'dynamodb:Query'
+                - 'dynamodb:UpdateItem'
+                - 'dynamodb:GetItem'
 
               Resource: '*'
 
