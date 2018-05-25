@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AWS Config Rules Workshop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="js/aws-cognito-sdk.min.js"></script>
+    <script src="js/amazon-cognito-identity.min.js"></script>
+  </head>
+  <body>
+
+    <div class="container">
+      <h4>Enter the code sent to the email you provided. <br>Then, login again on the home page.<h4>
+      <form id="userDetails">
+        <div class="form-group">
+          <label for="confirmCode">Email:</label>
+          <input type="number" class="form-control" id="confirmCode" placeholder="Enter Confirmation Code" name="confirmCode">
+        </div>
+        <button type="submit" class="btn btn-confirm">Confirm</button>
+      </form>
+    </div>
+
+  </body>
+
+  <script>
+  $(document).on('click', '.btn-confirm', function(event) {
+    event.preventDefault();
+
+    var confirmCode = document.getElementById('confirmCode').value;
+
+    var poolData = {
+      UserPoolId : 'us-east-1_295uQLU3e', // Your user pool id here
+      ClientId : '4f58216vmld47rj7cqa96pdt8i' // Your client id here
+    };
+
+    var userName = localStorage.getItem('email');
+
+    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userData = {
+        Username : userName,
+        Pool : userPool
+    };
+
+    var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+    cognitoUser.confirmRegistration(confirmCode, true, function(err, result) {
+        if (err) {
+            alert(err);
+            return;
+        }
+        window.location.replace("index.html");
+    });
+
+  });
+  </script>
+</html>
