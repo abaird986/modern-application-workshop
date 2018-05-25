@@ -9,15 +9,53 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.135.0.min.js"></script>
+    <script src="js/aws-cognito-sdk.min.js"></script>
+    <script src="js/amazon-cognito-identity.min.js"></script>
   </head>
   <body ng-app="mysfitsApp">
     <br>
     <div class="container">
+      <div class='btn-toolbar pull-right'>
+        <div class='btn-group'>
+          <button type="button" id="logInButton" class="btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">Log In / Register</button>
+          <button type="button" id="logOutButton" class="btn btn-danger btn-lg hidden">Log Out</button>
+        </div>
+      </div>
       <div class='page-header'>
         <h2 align="center">Mythical Mysfits</h2>
         <br>
       </div>
     </div>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close"
+            data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Login
+          </h4>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="loginForm">
+            <input type="text" id ="email" name="email" placeholder="Email" />
+            <input type="password" id="pwd" name="pwd" placeholder="Password" />
+            <input type="submit" id="login-modal-button" name="login" class="btn btn-info" value="Login"/ >
+          </form>
+          <div class="login-help">
+            <a href="register.html">Register</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <div class="container" ng-controller="mysfitsFilterController">
       <div id="filterMenu">
         <ul class="nav nav-pills">
@@ -68,6 +106,137 @@
     var gridScope;
 
     var filterScope;
+
+    initializeStorage();
+
+    function initializeStorage() {
+      var identityPoolId = 'us-east-1_295uQLU3e';//
+      var userPoolId = 'us-east-1_295uQLU3e'; //
+      var clientId = '4f58216vmld47rj7cqa96pdt8i';//
+      var loginPrefix = 'cognito-idp.us-east-1.amazonaws.com/' + identityPoolId;
+
+      localStorage.setItem('identityPoolId', identityPoolId);
+      localStorage.setItem('userPoolId', userPoolId);
+      localStorage.setItem('clientId', clientId);
+      localStorage.setItem('loginPrefix', loginPrefix);
+    }
+
+
+    function loginUser() {
+
+      var userPoolId = localStorage.getItem('userPoolId');
+      var clientId = localStorage.getItem('clientId');
+      var identityPoolId = localStorage.getItem('identityPoolId');
+      var loginPrefix = localStorage.getItem('loginPrefix');
+
+      var poolData = {
+        UserPoolId : userPoolId, // Your user pool id here
+        ClientId : clientId // Your client id here
+      };
+      var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+
+      var email = document.getElementById('email').value;
+      var pwd = document.getElementById('pwd').value;
+
+      var authenticationData =
+      {
+        'UserName': email,
+        'Password': pwd
+      }
+      var userData = {
+        Username : email,
+        Pool : userPool
+      };
+
+      var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+      var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+          console.log('access token + \n' + result.getAccessToken().getJwtToken());
+
+          var sessionTokens =
+          {
+            IdToken: result.getIdToken(),
+            AccessToken: result.getAccessToken(),
+            RefreshToken: result.getRefreshToken()
+          };
+
+          localStorage.setItem('sessionTokens', JSON.stringify(sessionTokens));
+
+          //POTENTIAL: Region needs to be set if not already set previously elsewhere.
+          AWS.config.region = 'us-east-1';
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId : identityPoolId, // your identity pool id here
+            Logins : {
+              // Change the key below according to the specific region your user pool is in.
+               loginPrefix : sessionTokens.IdToken.jwtToken
+            }
+          });
+          localStorage.setItem('awsConfig', JSON.stringify(AWS.config));
+          localStorage.setItem('email', email);
+          $("#loginModal").modal("hide");
+        },
+
+        onFailure: function(err) {
+          alert(err);
+        },
+
+      });
+    }
+
+    function refreshAWSCredentials() {
+
+      var userPoolId = localStorage.getItem('userPoolId');
+      var clientId = localStorage.getItem('clientId');
+      var identityPoolId = localStorage.getItem('identityPoolId');
+      var loginPrefix = localStorage.getItem('loginPrefix');
+
+      var poolData = {
+        UserPoolId : userPoolId, // Your user pool id here
+        ClientId : clientId // Your client id here
+      };
+      var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+      var cognitoUser = userPool.getCurrentUser();
+
+      if (cognitoUser != null) {
+            cognitoUser.getSession(function(err, result) {
+                if (result) {
+                    console.log('You are now logged in.');
+                    cognitoUser.refreshSession(result.getRefreshToken(), function(err, result) {
+
+                        if (err) {//throw err;
+                            console.log('In the err: '+err);
+                        }
+                        else{
+                            localStorage.setItem('awsConfig', JSON.stringify(AWS.config));
+                            var sessionTokens =
+                            {
+                              IdToken: result.getIdToken(),
+                              AccessToken: result.getAccessToken(),
+                              RefreshToken: result.getRefreshToken()
+                            };
+                            localStorage.setItem("sessionTokens", JSON.stringify(sessionTokens));
+
+                            refreshDisplay();
+                        }
+                    });
+
+                }
+            });
+        }
+
+
+    }
+
+    $("#loginForm").submit(function(event) {
+      event.preventDefault();
+      loginUser();
+    });
+
+    $(document).on('click', '#logOutButton', function(event) {
+      localStorage.clear();
+      document.location.reload();
+    });
 
     app.controller('clearFilterController', function($scope) {
     });
