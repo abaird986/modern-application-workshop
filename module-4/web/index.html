@@ -20,7 +20,6 @@
         <div class='btn-toolbar pull-right'>
           <div class='btn-group'>
             <button type="button" id="logInButton" class="btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">Log In / Register</button>
-            <button type="button" id="logOutButton" class="btn btn-danger btn-lg hidden">Log Out</button>
           </div>
         </div>
         <h2 align="center">Mythical Mysfits</h2>
@@ -231,11 +230,6 @@
     $("#loginForm").submit(function(event) {
       event.preventDefault();
       loginUser();
-    });
-
-    $(document).on('click', '#logOutButton', function(event) {
-      localStorage.clear();
-      document.location.reload();
     });
 
     app.controller('clearFilterController', function($scope) {
