@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Deploy a service on AWS Fargate, hosted in a private subnet, but accessible via a public load balancer.
+Parameters:
+  ServiceStackName:
+    Type: String
+    Default: MythicalMysfitsServiceStack
+    Description: The name of the parent Fargate service stack that you created. Necessary
+                 to locate and reference resources created by that stack.
+Resources:
+  

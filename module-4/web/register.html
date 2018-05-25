@@ -39,7 +39,7 @@
       UserPoolId : 'us-east-1_295uQLU3e', // Your user pool id here
       ClientId : '4f58216vmld47rj7cqa96pdt8i' // Your client id here
     };
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
     var attributeList = [];
 
@@ -52,7 +52,7 @@
         Value : email
     };
 
-    var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
+    var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
 
     attributeList.push(attributeEmail);
 
