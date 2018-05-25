@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="js/aws-cognito-sdk.min.js"></script>
     <script src="js/amazon-cognito-identity.min.js"></script>
   </head>
   <body>
@@ -37,9 +38,9 @@
 
     var poolData = {
       UserPoolId : 'us-east-1_295uQLU3e', // Your user pool id here
-      ClientId : '4f58216vmld47rj7cqa96pdt8i' // Your client id here
+      ClientId : '1hs6i5ndaeas122atmo3jngd0h' // Your client id here
     };
-    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
 
     var attributeList = [];
 
@@ -52,7 +53,7 @@
         Value : email
     };
 
-    var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
+    var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
 
     attributeList.push(attributeEmail);
 
