@@ -132,7 +132,7 @@
         UserPoolId : userPoolId, // Your user pool id here
         ClientId : clientId // Your client id here
       };
-      var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+      var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
       var email = document.getElementById('email').value;
       var pwd = document.getElementById('pwd').value;
@@ -147,8 +147,8 @@
         Pool : userPool
       };
 
-      var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
-      var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+      var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
           console.log('access token + \n' + result.getAccessToken().getJwtToken());
@@ -164,7 +164,7 @@
 
           //POTENTIAL: Region needs to be set if not already set previously elsewhere.
           AWS.config.region = 'us-east-1';
-          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          AWS.config.credentials = new AmazonCognitoIdentity.CognitoIdentityCredentials({
             IdentityPoolId : identityPoolId, // your identity pool id here
             Logins : {
               // Change the key below according to the specific region your user pool is in.

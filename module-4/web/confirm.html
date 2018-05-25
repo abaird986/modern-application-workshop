@@ -38,13 +38,13 @@
 
     var userName = localStorage.getItem('email');
 
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var userData = {
         Username : userName,
         Pool : userPool
     };
 
-    var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+    var cognitoUser = new AAmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.confirmRegistration(confirmCode, true, function(err, result) {
         if (err) {
             alert(err);
