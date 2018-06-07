@@ -9,7 +9,7 @@ CORS(app)
 def errorResponse():
     return jsonify({"message" : "Nothing here, used for health check. Try /mysfits instead."})
 
-@app.route("/mysfits")
+@app.route("/mysfits", methods=['GET'])
 def getMysfits():
 
     filterCategory = request.args.get('filter')
@@ -22,6 +22,33 @@ def getMysfits():
         serviceResponse = mysfitsTableClient.queryMysfits(queryParam)
     else:
         serviceResponse = mysfitsTableClient.getAllMysfits()
+
+    flaskResponse = Response(serviceResponse)
+    flaskResponse.headers["Content-Type"] = "application/json"
+
+    return flaskResponse
+
+@app.route("/mysfits/<mysfitId>", methods=['GET'])
+def getMysfit(mysfitId):
+    serviceResponse = mysfitsTableClient.getMysfit(mysfitId)
+
+    flaskResponse = Response(serviceResponse)
+    flaskResponse.headers["Content-Type"] = "application/json"
+
+    return flaskResponse
+
+@app.route("/mysfits/<mysfitId>/like", methods=['POST'])
+def likeMysfit(mysfitId):
+    serviceResponse = mysfitsTableClient.likeMysfit(mysfitId)
+
+    flaskResponse = Response(serviceResponse)
+    flaskResponse.headers["Content-Type"] = "application/json"
+
+    return flaskResponse
+
+@app.route("/mysfits/<mysfitId>/adopt", methods=['POST'])
+def adoptMysfit(mysfitId):
+    serviceResponse = mysfitsTableClient.adoptMysfit(mysfitId)
 
     flaskResponse = Response(serviceResponse)
     flaskResponse.headers["Content-Type"] = "application/json"
