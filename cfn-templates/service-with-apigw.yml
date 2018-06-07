@@ -197,6 +197,13 @@ Resources:
     Type: AWS::Cognito::UserPool
     Properties:
       UserPoolName: MysfitsUserPool
+      AutoVerifiedAttributes:
+        - email
+
+  MysfitsUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+        UserPoolId: !Ref MysfitsUserPool
 
   MysfitsVpcLink:
     Type: AWS::ApiGateway::VpcLink
@@ -215,6 +222,9 @@ Resources:
     Properties:
       EndpointConfiguration: REGIONAL
       StageName: prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
       DefinitionBody:
           swagger: 2.0
           info:
@@ -278,9 +288,6 @@ Resources:
                     required: true
                     type: string
                 responses: {}
-                security:
-                  -
-                    MysfitsUserPoolAuthorizer: []
                 x-amazon-apigateway-integration:
                   requestParameters:
                     integration.request.path.mysfitId: method.request.path.mysfitId
@@ -386,3 +393,11 @@ Outputs:
     Value: !Ref 'MysfitsApigwApi'
     Export:
       Name: !Join [ ':', [ !Ref 'AWS::StackName', 'ApiId' ] ]
+
+  UserPoolId:
+    Description: The Cognito user pool created for Mythical Mysfits users.
+    Value: !Ref 'MysfitsUserPool'
+
+  UserPoolClientId:
+    Description: The clientId for the application client that will utilize the Mysfits user pool.
+    Value: !Ref 'MysfitsUserPoolClient'

@@ -16,29 +16,23 @@
   <body ng-app="mysfitsApp">
     <br>
     <div class="container">
-      <div class='page-header'>
-        <div class='btn-toolbar pull-right'>
-          <div class='btn-group'>
-            <button type="button" id="logInButton" class="btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">Log In / Register</button>
-          </div>
+      <h2 align="center">Mythical Mysfits</h2>
+    </div>
+    <div class="container">
+        <div class='btn-toolbar float-right'>
+          <button type="button" id="logInButton" class="btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">Log In / Register</button>
+          <button type="button" id="logOutButton" class="btn btn-danger btn-lg d-none">Log Out</button>
         </div>
-        <h2 align="center">Mythical Mysfits</h2>
-        <br>
-      </div>
     </div>
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-            <button type="button" class="close"
-            data-dismiss="modal">
+            <button type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">
-            Login
-          </h4>
         </div>
 
         <!-- Modal Body -->
@@ -75,30 +69,76 @@
     <br>
     <div class="container">
       <div id="mysfitsGrid" class="row" ng-controller="mysfitsListController">
-          <div class="col-md-4 border border-warning" ng-repeat="mysfit in mysfits">
+        <div class="col-md-4 border border-warning" ng-repeat="mysfit in mysfits">
+            <br>
+            <p align="center">
+              <strong> {{mysfit.name}}</strong>
               <br>
-              <p align="center">
-                <strong> {{mysfit.name}}</strong>
-                <br>
-                <img src="{{mysfit.thumbImageUri}}" alt="{{mysfit.Name}}">
-              </p>
-              <p>
-                <br>
-                Species: {{mysfit.species}}
-                <br>
-                Age: {{mysfit.age}}
-                <br>
-                Alignment: {{mysfit.alignment}}
-                <br>
-                description: {{mysfit.description}}
-              </p>
-          </div>
+              <img src="{{mysfit.thumbImageUri}}" alt="{{mysfit.Name}}">
+              <br>
+              <br>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileModal" data-whatever="test1234" data-mysfitid="{{mysfit.mysfitId}}">View Profile</button>
+            </p>
+            <p>
+              <br>
+              Species: {{mysfit.species}}
+              <br>
+              Alignment: {{mysfit.alignment}}
+              <span style="float:right;">
+                <img id="{{mysfit.mysfitId}}LikeIcon" ng-click="likeClicked(mysfit.mysfitId)" src="https://i.imgur.com/4GXfYcg.jpg" onmouseover="" style="cursor: pointer;">
+                <img id="{{mysfit.mysfitId}}AlreadyLikedIcon" class="d-none" src="https://i.imgur.com/nfZ202x.jpg" >
+              </span>
+            </p>
         </div>
       </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="profileModal" tabindex="-1" aria-hidden="true" ng-controller="mysfitProfileController">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h3>Mysfit Profile</h3>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+          </div>
+        <!-- Modal Body -->
+          <div class="modal-body">
+            <p align="center">
+              <img id="profileImage" src="{{profileMysfit.profileImageUri}}" align="center" />
+            </p>
+            <br>
+            <p id="profileName"> Name: {{profileMysfit.name}}</p>
+            <p id="profileSpecies">Species: {{profileMysfit.species}}</p>
+            <p id="profileAlignment">Alignment:{{profileMysfit.alignment}} </p>
+            <p id="profileAge">Age: {{profileMysfit.age}}</p>
+            <p id="profileDescription">Description: {{profileMysfit.description}}</p>
+            <p id="profileLikes">Likes: {{profileMysfit.likes}}</p>
+            <p align="center">
+              <button id="adoptButton" align="center" type="button" ng-click="adoptClicked(profileMysfit.mysfitId)" class="btn btn-primary">Adopt Me Now!</button>
+              <button id="alreadyAdoptedButton" align="center" type="button" class="btn btn-primary d-none" disabled>Mysfit Adopted!</button>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <br>
+      <br>
+      &nbsp;&nbsp;This site was created for use in the AWS Modern Application Workshop.  Please see details here: tbd.
+    </p>
   </body>
   <script>
 
-    var mysfitsApiEndpoint = 'REPLACE_ME';
+    var mysfitsApiEndpoint = 'https://hryz4cuhbc.execute-api.us-east-1.amazonaws.com/prod';
+    var cognitoUserPoolId = 'us-east-1_afnp5ceRY';
+    var cognitoUserPoolClientId = '318aq5lm4o9so885cnvlgopuks';
+    var awsRegion = 'us-east-1';
 
     var app = angular.module('mysfitsApp', []);
 
@@ -106,19 +146,40 @@
 
     var filterScope;
 
+    var profileScope;
+
     initializeStorage();
 
+    var configString = localStorage.getItem("awsConfig");
+    var config = JSON.parse(configString);
+    if(config != null) {
+      refreshAWSCredentials();
+      loggedInDisplay();
+    }
+
+    function loggedInDisplay() {
+      $("#loginModal").modal("hide");
+      $("#logInButton").addClass("d-none");
+      $("#logOutButton").removeClass("d-none");
+    }
+
     function initializeStorage() {
-      var identityPoolId = 'us-east-1_295uQLU3e';//
-      var userPoolId = 'us-east-1_295uQLU3e'; //
-      var clientId = '1hs6i5ndaeas122atmo3jngd0h';//
-      var loginPrefix = 'cognito-idp.us-east-1.amazonaws.com/' + identityPoolId;
+      var identityPoolId = cognitoUserPoolId;//
+      var userPoolId = cognitoUserPoolId; //
+      var clientId = cognitoUserPoolClientId;//
+      var loginPrefix = 'cognito-idp.' + awsRegion + '.amazonaws.com/' + identityPoolId;
 
       localStorage.setItem('identityPoolId', identityPoolId);
       localStorage.setItem('userPoolId', userPoolId);
       localStorage.setItem('clientId', clientId);
       localStorage.setItem('loginPrefix', loginPrefix);
     }
+
+
+  $(document).on('click', '#logOutButton', function(event) {
+    localStorage.clear();
+    document.location.reload();
+  });
 
 
     function loginUser() {
@@ -159,12 +220,11 @@
             AccessToken: result.getAccessToken(),
             RefreshToken: result.getRefreshToken()
           };
-
           localStorage.setItem('sessionTokens', JSON.stringify(sessionTokens));
 
           //POTENTIAL: Region needs to be set if not already set previously elsewhere.
           AWS.config.region = 'us-east-1';
-          AWS.config.credentials = new AmazonCognitoIdentity.CognitoIdentityCredentials({
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId : identityPoolId, // your identity pool id here
             Logins : {
               // Change the key below according to the specific region your user pool is in.
@@ -173,11 +233,11 @@
           });
           localStorage.setItem('awsConfig', JSON.stringify(AWS.config));
           localStorage.setItem('email', email);
-          $("#loginModal").modal("hide");
+          loggedInDisplay();
         },
 
         onFailure: function(err) {
-          alert(err);
+          alert(err.message);
         },
 
       });
@@ -194,7 +254,7 @@
         UserPoolId : userPoolId, // Your user pool id here
         ClientId : clientId // Your client id here
       };
-      var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+      var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
       var cognitoUser = userPool.getCurrentUser();
 
       if (cognitoUser != null) {
@@ -216,7 +276,6 @@
                             };
                             localStorage.setItem("sessionTokens", JSON.stringify(sessionTokens));
 
-                            refreshDisplay();
                         }
                     });
 
@@ -277,6 +336,9 @@
              },
              error : function(response) {
                console.log("could not retrieve mysfits list.");
+               if (response.status == "401") {
+                  refreshAWSCredentials();
+                }
              }
            });
        }
@@ -291,11 +353,129 @@
 
       getAllMysfits(applyGridScope);
 
+
+
+      $scope.likeClicked = function(mysfitId) {
+        console.log("clicked: " + mysfitId);
+        likeMysfit(mysfitId, updateLikeIcons);
+      }
+
     });
+
+    app.controller('mysfitProfileController', function($scope) {
+
+      profileScope = $scope;
+
+      $scope.adoptClicked = function(mysfitId) {
+        console.log("adopt clicked: " +  mysfitId);
+        adoptMysfit(mysfitId, markAdopted);
+      }
+
+    });
+
+    $('#profileModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var mysfitId = button.data('mysfitid');
+      getMysfit(mysfitId, updateModalText);
+
+
+    });
+
+    function updateModalText(profileMysfit) {
+
+      applyProfileScope(profileMysfit);
+
+      if (profileMysfit.adopted == true) {
+        markAdopted();
+      } else {
+        markNotAdopted();
+      }
+
+    }
+
+    function markAdopted() {
+      $("#adoptButton").addClass("d-none");
+      $("#alreadyAdoptedButton").removeClass("d-none");
+    }
+
+    function markNotAdopted() {
+      $("#adoptButton").removeClass("d-none");
+      $("#alreadyAdoptedButton").addClass("d-none");
+    }
+
+    function updateLikeIcons(mysfitId) {
+
+      likeIconId = "#" + mysfitId + "LikeIcon";
+      $(likeIconId).addClass("d-none");
+
+      alreadyLikedIconId = "#" + mysfitId + "AlreadyLikedIcon";
+      $(alreadyLikedIconId).removeClass("d-none");
+
+    }
 
     function applyGridScope(mysfitsList) {
       gridScope.mysfits = mysfitsList;
       gridScope.$apply();
+    }
+
+    function applyProfileScope(mysfit) {
+      profileScope.profileMysfit = mysfit;
+      profileScope.$apply();
+    }
+
+    function likeMysfit(mysfitId, callback) {
+
+      var petsApi = mysfitsApiEndpoint + '/mysfits/' + mysfitId + "/like";
+
+      var sessionTokensString = localStorage.getItem('sessionTokens');
+      var sessionTokens = JSON.parse(sessionTokensString);
+      var IdToken = sessionTokens.IdToken;
+      var idJwt = IdToken.jwtToken;
+
+      $.ajax({
+        url : petsApi,
+        type : 'POST',
+        headers : {'Authorization' : idJwt },
+        success : function(response) {
+          console.log("here" + mysfitId);
+          callback(mysfitId);
+        },
+        error : function(response) {
+          console.log("could not like mysfit");
+          console.log(response);
+          if (response.status == "401") {
+             refreshAWSCredentials();
+           }
+        }
+      });
+
+    }
+
+    function adoptMysfit(mysfitId, callback) {
+
+      var petsApi = mysfitsApiEndpoint + '/mysfits/' + mysfitId + "/adopt";
+
+      var sessionTokensString = localStorage.getItem('sessionTokens');
+      var sessionTokens = JSON.parse(sessionTokensString);
+      var IdToken = sessionTokens.IdToken;
+      var idJwt = IdToken.jwtToken;
+
+      $.ajax({
+        url : petsApi,
+        async : false,
+        type : 'POST',
+        headers : {'Authorization' : idJwt },
+        success : function(response) {
+          callback();
+        },
+        error : function(response) {
+          console.log("could not adopt mysfit");
+          if (response.status == "401") {
+             refreshAWSCredentials();
+           }
+        }
+      });
+
     }
 
     function getAllMysfits(callback) {
@@ -310,6 +490,28 @@
         },
         error : function(response) {
           console.log("could not retrieve mysfits list.");
+          if (response.status == "401") {
+             refreshAWSCredentials();
+           }
+        }
+      });
+    }
+
+    function getMysfit(mysfitId, callback) {
+
+      var petsApi = mysfitsApiEndpoint + '/mysfits/' + mysfitId;
+
+      $.ajax({
+        url : petsApi,
+        type : 'GET',
+        success : function(response) {
+          callback(response);
+        },
+        error : function(response) {
+          console.log("could not retrieve mysfits list.");
+          if (response.status == "401") {
+             refreshAWSCredentials();
+           }
         }
       });
     }

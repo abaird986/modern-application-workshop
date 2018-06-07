@@ -19,7 +19,7 @@
           <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
         </div>
         <div class="form-group">
-          <label for="pwd">Password:</label>
+          <label for="pwd">Password: </label>
           <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
         </div>
         <div class="form-group">
@@ -33,12 +33,16 @@
   </body>
 
   <script>
+
+  var cognitoUserPoolId = 'REPLACE_ME';  // example: 'us-east-1_abcd12345'
+  var cognitoUserPoolClientId = 'REPLACE_ME'; // example: 'abcd12345abcd12345abcd12345'
+
   $(document).on('click', '.btn-info', function(event) {
     event.preventDefault();
 
     var poolData = {
-      UserPoolId : 'us-east-1_295uQLU3e', // Your user pool id here
-      ClientId : '1hs6i5ndaeas122atmo3jngd0h' // Your client id here
+      UserPoolId : cognitoUserPoolId,
+      ClientId : cognitoUserPoolClientId
     };
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
@@ -60,7 +64,7 @@
     if (pw === confirmPw) {
       userPool.signUp(email, pw, attributeList, null, function(err, result){
           if (err) {
-              alert(err);
+              alert(err.message);
               return;
           }
           cognitoUser = result.user;

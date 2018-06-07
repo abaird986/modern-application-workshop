@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AWS Config Rules Workshop</title>
+    <title>Mythical Mysfits Registration</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -16,24 +16,28 @@
       <h4>Enter the code sent to the email you provided. <br>Then, login again on the home page.<h4>
       <form id="userDetails">
         <div class="form-group">
-          <label for="confirmCode">Email:</label>
+          <label for="confirmCode">Confirmation Code:</label>
           <input type="number" class="form-control" id="confirmCode" placeholder="Enter Confirmation Code" name="confirmCode">
         </div>
-        <button type="submit" class="btn btn-confirm">Confirm</button>
+        <button type="submit" class="btn btn-success">Confirm</button>
       </form>
     </div>
 
   </body>
 
   <script>
-  $(document).on('click', '.btn-confirm', function(event) {
+
+  var cognitoUserPoolId = 'REPLACE_ME';  // example: 'us-east-1_abcd12345'
+  var cognitoUserPoolClientId = 'REPLACE_ME'; // example: 'abcd12345abcd12345abcd12345'
+
+  $(document).on('click', '.btn-success', function(event) {
     event.preventDefault();
 
     var confirmCode = document.getElementById('confirmCode').value;
 
     var poolData = {
-      UserPoolId : 'us-east-1_295uQLU3e', // Your user pool id here
-      ClientId : '1hs6i5ndaeas122atmo3jngd0h' // Your client id here
+      UserPoolId : cognitoUserPoolId,
+      ClientId : cognitoUserPoolClientId
     };
 
     var userName = localStorage.getItem('email');
@@ -44,10 +48,10 @@
         Pool : userPool
     };
 
-    var cognitoUser = new AAmazonCognitoIdentity.CognitoUser(userData);
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.confirmRegistration(confirmCode, true, function(err, result) {
         if (err) {
-            alert(err);
+            alert(err.message);
             return;
         }
         window.location.replace("index.html");
