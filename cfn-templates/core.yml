@@ -328,6 +328,11 @@ Resources:
 # about changing any of them, because of them are exported with specific
 # names so that the other task related CF templates can use them.
 Outputs:
+  CurrentRegion:
+    Description: The string representation of the region being used.
+    Value: !Ref AWS::Region
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'CurrentRegion' ] ]
   PublicLoadBalancer:
     Description: The arn of the public load balancer
     Value: !Ref 'PublicLoadBalancer'
