@@ -224,7 +224,7 @@ Resources:
       StageName: prod
       Cors:
         AllowOrigin: "'*'"
-        AllowHeaders: "'*'"
+        AllowHeaders: "'Authorization'"
       DefinitionBody:
           swagger: 2.0
           info:

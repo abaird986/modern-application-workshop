@@ -163,7 +163,7 @@ Resources:
       StageName: prod
       Cors:
         AllowOrigin: "'*'"
-        AllowHeaders: "'*'"
+        AllowHeaders: "'Content-Type'"
       DefinitionBody:
           swagger: 2.0
           info:
@@ -179,10 +179,21 @@ Resources:
                 responses:
                   '200':
                     statusCode: 200
+                    headers:
+                      Access-Control-Allow-Headers:
+                          type: string
+                      Access-Control-Allow-Methods:
+                          type: string
+                      Access-Control-Allow-Origin:
+                          type: string
                 x-amazon-apigateway-integration:
                   responses:
                     default:
                       statusCode: 200
+                      responseParameters:
+                        method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
+                        method.response.header.Access-Control-Allow-Methods: "'OPTIONS, PUT'"
+                        method.response.header.Access-Control-Allow-Origin: "'*'"
                   credentials: !GetAtt ClickProcessingApiRole.Arn
                   connectionType: INTERNET
                   httpMethod: POST
