@@ -12,6 +12,7 @@
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.135.0.min.js"></script>
     <script src="js/aws-cognito-sdk.min.js"></script>
     <script src="js/amazon-cognito-identity.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.13.0/dojo/dojo.js"></script>
   </head>
   <body ng-app="mysfitsApp">
     <br>
@@ -77,7 +78,7 @@
               <img src="{{mysfit.thumbImageUri}}" alt="{{mysfit.Name}}">
               <br>
               <br>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileModal" data-whatever="test1234" data-mysfitid="{{mysfit.mysfitId}}">View Profile</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileModal" data-mysfitid="{{mysfit.mysfitId}}">View Profile</button>
             </p>
             <p>
               <br>
@@ -135,10 +136,12 @@
   </body>
   <script>
 
-    var mysfitsApiEndpoint = 'REPLACE_ME'; // example: 'https://abcd12345.execute-api.us-east-1.amazonaws.com/prod'
-    var cognitoUserPoolId = 'REPLACE_ME';  // example: 'us-east-1_abcd12345'
-    var cognitoUserPoolClientId = 'REPLACE_ME'; // example: 'abcd12345abcd12345abcd12345'
-    var awsRegion = 'REPLACE_ME'; // example: 'us-east-1' or 'eu-west-1' etc.
+    var mysfitsApiEndpoint = 'https://hryz4cuhbc.execute-api.us-east-1.amazonaws.com/prod'; // example: 'https://abcd12345.execute-api.us-east-1.amazonaws.com/prod'
+    var streamingApiEndpoint = 'https://shcs3u3165.execute-api.us-east-1.amazonaws.com/prod'; // example: 'https://abcd12345.execute-api.us-east-1.amazonaws.com/prod'
+
+    var cognitoUserPoolId = 'us-east-1_afnp5ceRY';  // example: 'us-east-1_abcd12345'
+    var cognitoUserPoolClientId = '318aq5lm4o9so885cnvlgopuks'; // example: 'abcd12345abcd12345abcd12345'
+    var awsRegion = 'us-east-1'; // example: 'us-east-1' or 'eu-west-1' etc.
 
     var app = angular.module('mysfitsApp', []);
 
@@ -233,6 +236,21 @@
           });
           localStorage.setItem('awsConfig', JSON.stringify(AWS.config));
           localStorage.setItem('email', email);
+
+          cognitoUser.getUserAttributes(function(err, result) {
+            if (err) {
+                alert(err);
+                return;
+            }
+            for (i = 0; i < result.length; i++) {
+                console.log('attribute ' + result[i].getName() + ' has value ' + result[i].getValue());
+                if (result[i].getName() == 'sub') {
+                  console.log('Overwriting userId into local storage');
+                  localStorage.setItem('userId', result[i].getValue());
+                }
+            }
+          });
+
           loggedInDisplay();
         },
 
@@ -242,6 +260,7 @@
 
       });
     }
+
 
     function refreshAWSCredentials() {
 
@@ -377,6 +396,7 @@
       var button = $(event.relatedTarget);
       var mysfitId = button.data('mysfitid');
       getMysfit(mysfitId, updateModalText);
+      recordProfileClick(mysfitId)
 
 
     });
@@ -516,6 +536,39 @@
       });
     }
 
+  function recordProfileClick(clickedMysfitId) {
+
+    var clicksApi = streamingApiEndpoint + '/clicks';
+    var userClick;
+
+    currentUserId = localStorage.getItem('userId');
+    if (currentUserId == null) {
+      currentUserId = 'guest';
+    }
+
+    userClick = {
+      userId: currentUserId,
+      mysfitId: clickedMysfitId
+    }
+
+    console.log('Recording profile click: ' + userClick);
+
+    $.ajax({
+      url : clicksApi,
+      type : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      dataType: 'json',
+      data : JSON.stringify(userClick),
+      success : function(response) {
+        callback(mysfitId);
+      },
+      error : function(response) {
+        console.log("could not record click");
+        console.log(response);
+      }
+    });
+
+  }
 
   </script>
 </html>
