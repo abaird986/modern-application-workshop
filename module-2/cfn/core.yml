@@ -275,12 +275,13 @@ Resources:
               # Rules which allow ECS to run tasks that have IAM roles assigned to them.
               - 'iam:PassRole'
 
-              # Rules that let ECS
+              # Rules that let ECS interact with container images.
               - 'ecr:GetAuthorizationToken'
               - 'ecr:BatchCheckLayerAvailability'
               - 'ecr:GetDownloadUrlForLayer'
               - 'ecr:BatchGetImage'
 
+              # Rules that let ECS create and push logs to CloudWatch.
               - 'logs:DescribeLogStreams'
               - 'logs:CreateLogStream'
               - 'logs:CreateLogGroup'
@@ -333,6 +334,11 @@ Outputs:
     Value: !Ref AWS::Region
     Export:
       Name: !Join [ ':', [ !Ref 'AWS::StackName', 'CurrentRegion' ] ]
+  CurrentAccount:
+    Description: The ID of the Account being used.
+    Value: !Ref AWS::AccountId
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'CurrentAccount' ] ]
   PublicLoadBalancer:
     Description: The arn of the public load balancer
     Value: !Ref 'PublicLoadBalancer'
