@@ -52,29 +52,28 @@ Select a region from the dropdown in the upper right corner of the AWS Managemen
 
 ### Create a new AWS Cloud9 Environment
 
- On the AWS Console home page, type “Cloud9” into the service search bar and select it:
+ On the AWS Console home page, type **Cloud9** into the service search bar and select it:
+ ![aws-console-home](/images/module-1/cloud9-service.png)
 
- ![aws-console-home](/images/module-1/cloud9-service.png)]
 
-Click “Create Environment” on the Cloud9 home page:
+Click **Create Environment** on the Cloud9 home page:
+![cloud9-home](/images/module-1/cloud9-home.png)
 
-![cloud9-home](/images/module-1/cloud9-home.png)]
 
-Name your environment “MythicalMysfitsIDE” with any description you'd like, and click “Next Step”:
+Name your environment **MythicalMysfitsIDE** with any description you'd like, and click **Next Step**:
+![cloud9-name](/images/module-1/cloud9-name-ide.png)
 
-![cloud9-name](/images/module-1/cloud9-name-ide.png)]
 
-Leave the Environment settings as their defaults and click “Next Step”:
+Leave the Environment settings as their defaults and click **Next Step**:
+![cloud9-configure](/images/module-1/cloud9-configure-env.png)
 
-![cloud9-configure](/images/module-1/cloud9-configure-env.png)]
 
 Click “Create Environment”:
+![cloud9-review](/images/module-1/cloud9-review.png)
 
-![cloud9-review](/images/module-1/cloud9-review.png)]
 
 When the IDE has finished being created for you, you'll be presented with a welcome screen that looks like this:
-
-![cloud9-welcome](/images/module-1/cloud9-welcome.png)]
+![cloud9-welcome](/images/module-1/cloud9-welcome.png)
 
 In the bottom panel, you will see a terminal command line open and read to use.  Run the following git command in the terminal to clone the necessary code to complete this tutorial:
 
@@ -83,8 +82,8 @@ git clone https://github.com/aws-samples/aws-modern-application-workshop.git
 ```
 
 After cloning the repository, you'll see that your project explorer now includes the files cloned:
+![cloud9-explorer](/images/module-1/cloud9-explorer.png)
 
-![cloud9-explorer](/images/module-1/cloud9-explorer.png)]
 
 In the terminal, change directory to the newly cloned repository directory:
 
