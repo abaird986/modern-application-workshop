@@ -7,7 +7,7 @@ import json
 import requests
 
 def retrieveMysfit(mysfitId):
-    apiEndpoint = 'https://hryz4cuhbc.execute-api.us-east-1.amazonaws.com/prod/mysfits/' + str(mysfitId)
+    apiEndpoint = 'REPLACE_ME' + str(mysfitId)
     mysfit = requests.get(apiEndpoint).json()
     return mysfit
 
