@@ -713,7 +713,8 @@ To view the records that have been processed, they will arrive in the destinatio
 
 Now that you have a completed modern application architecture, we encourage you now to explore the AWS Console and all the various services you've created to launch Mythical Mysfits!
 
-### Clean-Up
+
+### Workshop Clean-Up
 Our use of CloudFormation makes cleanup of your workshop artifacts easy, you simply need to delete the stacks created during the workshop, and all of the resources we've created will be deleted.  *However*, there are some resources that CloudFormation will not programmatically delete if they still contain other created resources - in our case this includes S3 buckets, and our Elastic Container Registry repositories.
 Navigate to the S3 console and delete any buckets created there, and the ECS console to delete the created repositories.  Also keep in mind that we created our Lambda function code package without the use of CloudFormation, so it should be deleted by hand in the Console as well.
 
@@ -723,4 +724,12 @@ Once that is completed, you can delete the other CloudFormation stacks we've cre
 aws cloudformation delete-stack --stack-name STACK-NAME-HERE
 ```
 
-Thank you! We hope you enjoyed taking part in creating the Mythical Mysfits website!
+# Conclusion
+
+This experience was meant to give you a taste of what it's like to be a developer designing and building modern application architectures on top of AWS.  Developers on AWS are able to programmatically provision and reuse infrastructure definitions via AWS CloudFormation, automatically build and deploy code changes using the AWS developer tool suite of Code services, and take advantage of multiple different compute and appliation service capabilities that do not require you to provision or manage any servers at all!
+
+As a great next step, to learn more about the inner workings of the Mythical Mysfits website that you've created, dive into the provided CloudFormation templates and the resources declared within them.
+
+We hope you have enjoyed the AWS Modern Application Workshop!  If you have any feedback or questions, don't hesitate to post a comment or send an email to andbaird@amazon.com.
+
+Thank you!
