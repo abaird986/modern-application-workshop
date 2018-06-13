@@ -1,8 +1,11 @@
-# Introduction: **Build a Modern Application on AWS (Python)**
+# Build a Modern Application on AWS (Python)
 
 **AWS Experience: Beginner**
+
 **Time to Complete: 2-3 hours**
+
 **Cost to Complete: Many of the services used are included in the AWS Free Tier. For those that are not, the sample application will cost, in total, less than $1/day. **
+
 **Tutorial Prereqs:**
 
 * **An AWS Account and Administrator-level access to it**
@@ -30,6 +33,7 @@ So, you will not be manually creating each individual resource inside AWS, compl
 # Module 1: IDE Setup and Static Website Hosting
 
 **Time to complete:** 20 minutes
+
 **Services used:**
 * AWS Cloud9
 * AWS CloudFormation
@@ -138,6 +142,7 @@ That concludes Module 1.
 # Module 2: Creating a Service with AWS Fargate
 
 **Time to complete:** 60 minutes
+
 **Services used:**
 * AWS CloudFormation
 * AWS Identity and Access Management (IAM)
@@ -396,6 +401,7 @@ This concludes Module 2.
 # Module 3 - Adding a Data Tier with Amazon DynamoDB
 
 **Time to complete:** 30 minutes
+
 **Services used:**
 * AWS CloudFormation
 * Amazon DynamoDB
@@ -492,6 +498,7 @@ That concludes module 3.
 # Module 4: Adding User and API features with Amazon API Gateway and AWS Cognito
 
 **Time to complete:** 40 minutes
+
 **Services used:**
 * AWS CloudFormation
 * Amazon Cognito
@@ -564,6 +571,7 @@ This concludes Module 4.
 # Module 5: Capturing User Behavior
 
 **Time to complete:** 30 minutes
+
 **Services used:**
 * AWS CloudFormation
 * AWS Kinesis Firehose
